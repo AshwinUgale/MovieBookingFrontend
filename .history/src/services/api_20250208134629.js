@@ -65,15 +65,5 @@ export const bookSeats = async (showtimeId, seats) => {
   }
 };
 
-export const mockPayment = async (bookingId) => {
-  try {
-      const response = await api.post("/payments/pay", { bookingId });
-      return response.data;
-  } catch (error) {
-      console.error("Error processing mock payment:", error);
-      throw error;
-  }
-};
-
 
 export default api;

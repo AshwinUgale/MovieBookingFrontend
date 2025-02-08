@@ -9,7 +9,7 @@ import ShowtimesPage from "./pages/ShowtimesPage";
 import AdminMoviePage from "./pages/AdminMoviePage";
 import AdminShowtimePage from "./pages/AdminShowtimePage";
 import ShowtimePage from "./pages/ShowtimePage";
-import PaymentPage from "./pages/PaymentPage";
+import PaymentPage from "./pages/Paymentpage";
 
 
 function App() {

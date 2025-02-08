@@ -9,7 +9,6 @@ import ShowtimesPage from "./pages/ShowtimesPage";
 import AdminMoviePage from "./pages/AdminMoviePage";
 import AdminShowtimePage from "./pages/AdminShowtimePage";
 import ShowtimePage from "./pages/ShowtimePage";
-import PaymentPage from "./pages/PaymentPage";
 
 
 function App() {
@@ -23,7 +22,6 @@ function App() {
         <Route path="/movies" element={<MovieList />} />  {/* ✅ Updated path */}
         <Route path="/showtimes/:movieId" element={<ShowtimesPage />} />  {/* ✅ Updated path */}
         <Route path="/showtime/:showtimeId" element={<ShowtimePage />} />
-        <Route path="/payment/:bookingId" element={<PaymentPage />} />
 
         {/* Protected Routes */}
         <Route path="/dashboard" element={<PrivateRoute component={DashboardPage} />} />
