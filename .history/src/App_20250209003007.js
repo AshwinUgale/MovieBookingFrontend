@@ -11,15 +11,11 @@ import AdminShowtimePage from "./pages/AdminShowtimePage";
 import ShowtimePage from "./pages/ShowtimePage";
 import PaymentPage from "./pages/PaymentPage";
 import BookingHistoryPage from "./pages/BookingHistoryPage";
-import Navbar from "./components/Navbar";
-import AuthProvider from "./context/AuthContext"; 
 
 
 function App() {
   return (
-    <AuthProvider>
     <Router>
-      <Navbar/>
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
@@ -37,7 +33,6 @@ function App() {
         <Route path="/bookings" element={<PrivateRoute component={BookingHistoryPage} />} /> 
       </Routes>
     </Router>
-    </AuthProvider>
   );
 }
 
