@@ -21,25 +21,4 @@ const HomePage = () => {
           <Nav.Link as={Link} to="/movies" className="mx-2">🎬 Browse Movies</Nav.Link>
           {!isAuthenticated ? (
             <>
-              <Nav.Link as={Link} to="/login" className="mx-2">🔑 Login</Nav.Link>
-              <Nav.Link as={Link} to="/register" className="mx-2">📝 Register</Nav.Link>
-            </>
-          ) : (
-            <>
-             
-              <Button 
-                variant="danger" 
-                onClick={handleLogout} 
-                className="mx-2"
-              >
-                🚪 Logout
-              </Button>
-            </>
-          )}
-        </Nav>
-      </Navbar>
-    </Container>
-  );
-};
-
-export default HomePage;
+              <Nav.Link as={Link} to="/login" className="

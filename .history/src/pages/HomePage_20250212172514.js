@@ -26,7 +26,7 @@ const HomePage = () => {
             </>
           ) : (
             <>
-             
+              <Nav.Link as={Link} to="/dashboard" className="mx-2">📋 Dashboard</Nav.Link>
               <Button 
                 variant="danger" 
                 onClick={handleLogout} 
