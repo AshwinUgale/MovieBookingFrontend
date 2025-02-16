@@ -40,7 +40,7 @@ const HomePage = () => {
       </Navbar>
 
       {/* Hero Banner */}
-      {/* <HeroSection /> */}
+      <HeroSection />
 
       <Container className="text-center mt-5">
         {/* Search Bar */}
