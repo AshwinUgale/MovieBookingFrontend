@@ -14,7 +14,8 @@ const HomePage = () => {
 
       <Container className="text-center mt-5">
         {/* Search Bar */}
-  
+        <MovieSearch />
+
         {/* Trending Movies */}
         <TrendingMovies />
 
@@ -22,7 +23,7 @@ const HomePage = () => {
         <GenreSection />
 
         {/* User Testimonials */}
-       
+        <Testimonials />
 
         {/* Call to Action */}
         <CallToAction />

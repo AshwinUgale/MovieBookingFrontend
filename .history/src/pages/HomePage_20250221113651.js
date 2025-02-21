@@ -22,7 +22,7 @@ const HomePage = () => {
         <GenreSection />
 
         {/* User Testimonials */}
-       
+        <Testimonials />
 
         {/* Call to Action */}
         <CallToAction />
