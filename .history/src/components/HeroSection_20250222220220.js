@@ -73,7 +73,13 @@ const HeroSection = () => {
         ))}
       </Carousel>
 
-    
+      {/* ✅ Sleek Custom Navigation Buttons */}
+      <Button variant="dark" className="carousel-control-prev-custom" onClick={handlePrev}>
+        <FaChevronLeft />
+      </Button>
+      <Button variant="dark" className="carousel-control-next-custom" onClick={handleNext}>
+        <FaChevronRight />
+      </Button>
     </div>
   );
 };

@@ -97,7 +97,7 @@ export const cancelBooking = async (bookingId) => {
 };
 
 
-export const fetchEvents = async () => {
+export const fetchLiveEvents = async () => {
   try {
     const response = await api.get("/ticketmaster/events");
     return response.data;

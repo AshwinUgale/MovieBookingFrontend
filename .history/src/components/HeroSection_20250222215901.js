@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Carousel, Container, Button } from "react-bootstrap";
 import { fetchMovies, fetchEvents } from "../services/api";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa"; // ✅ Import sleek icons
 
 const HeroSection = () => {
   const [slides, setSlides] = useState([]);
@@ -73,40 +72,28 @@ const HeroSection = () => {
         ))}
       </Carousel>
 
-    
+      {/* ✅ Custom Navigation Buttons */}
+      <Button variant="dark" className="carousel-control-prev" onClick={handlePrev} style={buttonStyle}>
+        ◀
+      </Button>
+      <Button variant="dark" className="carousel-control-next" onClick={handleNext} style={buttonStyle}>
+        ▶
+      </Button>
     </div>
   );
 };
 
-// ✅ Modern Button Styles
-const buttonStyle = `
-.carousel-control-prev-custom, .carousel-control-next-custom {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
-  border: none;
-  padding: 8px 12px;
-  font-size: 20px;
-  color: #fff;
-  z-index: 10;
-  border-radius: 50%;
-  transition: all 0.3s ease-in-out;
-}
-.carousel-control-prev-custom:hover, .carousel-control-next-custom:hover {
-  background: rgba(255, 255, 255, 0.3);
-  color: #000;
-}
-.carousel-control-prev-custom {
-  left: 10px;
-}
-.carousel-control-next-custom {
-  right: 10px;
-}`;
-
-// ✅ Inject styles directly into the page
-const styleTag = document.createElement("style");
-styleTag.innerHTML = buttonStyle;
-document.head.appendChild(styleTag);
+// ✅ Styling for Buttons
+const buttonStyle = {
+  position: "absolute",
+  top: "50%",
+  transform: "translateY(-50%)",
+  background: "rgba(0, 0, 0, 0.5)",
+  border: "none",
+  padding: "10px 15px",
+  fontSize: "20px",
+  color: "#fff",
+  zIndex: 10,
+};
 
 export default HeroSection;

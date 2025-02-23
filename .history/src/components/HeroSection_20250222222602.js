@@ -78,31 +78,7 @@ const HeroSection = () => {
   );
 };
 
-// ✅ Modern Button Styles
-const buttonStyle = `
-.carousel-control-prev-custom, .carousel-control-next-custom {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
-  border: none;
-  padding: 8px 12px;
-  font-size: 20px;
-  color: #fff;
-  z-index: 10;
-  border-radius: 50%;
-  transition: all 0.3s ease-in-out;
-}
-.carousel-control-prev-custom:hover, .carousel-control-next-custom:hover {
-  background: rgba(255, 255, 255, 0.3);
-  color: #000;
-}
-.carousel-control-prev-custom {
-  left: 10px;
-}
-.carousel-control-next-custom {
-  right: 10px;
-}`;
+
 
 // ✅ Inject styles directly into the page
 const styleTag = document.createElement("style");
