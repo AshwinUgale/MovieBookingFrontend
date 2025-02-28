@@ -66,7 +66,13 @@ const HeroSection = () => {
         ))}
       </Carousel>
 
-     
+      {/* ✅ Custom Navigation Buttons */}
+      <button className="carousel-control-prev-custom" onClick={() => setIndex((prev) => (prev - 1 + slides.length) % slides.length)}>
+        <FaChevronLeft />
+      </button>
+      <button className="carousel-control-next-custom" onClick={() => setIndex((prev) => (prev + 1) % slides.length)}>
+        <FaChevronRight />
+      </button>
     </div>
   );
 };

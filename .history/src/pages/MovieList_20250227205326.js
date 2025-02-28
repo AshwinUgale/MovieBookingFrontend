@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { fetchMovies } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Card, Button, Spinner } from "react-bootstrap"; // ✅ Bootstrap components
-import GenreSection from "../components/GenreSection";
 
 const MovieList = () => {
   const [movies, setMovies] = useState([]);
@@ -25,9 +24,7 @@ const MovieList = () => {
   }, []);
 
   return (
-    <div>
-      <GenreSection/>
-        <Container className="mt-4">
+    <Container className="mt-4">
       <h2 className="text-center text-primary">🎬 Now Showing</h2>
 
       {loading ? (
@@ -51,17 +48,17 @@ const MovieList = () => {
                   }}
                 >
                   <Card.Img
-                      variant="top"
-                      src={movie.posterUrl || "https://via.placeholder.com/200x300"} // ✅ Use posterUrl instead of poster
-                      alt={movie.title}
-                      style={{
-                        width: "100%",
-                        height: "300px", // Ensuring a fixed height
-                        objectFit: "cover",
-                      }}
-                      onError={(e) => { e.target.src = "/default-poster.jpg"; }} // ✅ Fallback for broken images
-                    />
-
+                    variant="top"
+                    src={movie.poster && movie.poster !== "N/A" ? movie.posterUrl : "https://via.placeholder.com/200x300"}
+                    alt={movie.title}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      display: movie.poster ? "block" : "none" // Hide if no image
+                    }}
+                    onError={(e) => { e.target.style.display = "none"; }} // Hide broken images
+                  />
                 </div>
                 <Card.Body className="p-2">
                   <Card.Title className="fs-6">{movie.title}</Card.Title>
@@ -89,8 +86,6 @@ const MovieList = () => {
         </Row>
       )}
     </Container>
-    </div>
-    
   );
 };
 
