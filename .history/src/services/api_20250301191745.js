@@ -96,31 +96,16 @@ export const cancelBooking = async (bookingId) => {
   }
 };
 
-export const fetchEvents = async (city = "", category = "") => {
+
+export const fetchEvents = async () => {
   try {
-    let url = "/ticketmaster/events";
-
-    const queryParams = [];
-    if (city) queryParams.push(`city=${encodeURIComponent(city)}`);
-    if (category) queryParams.push(`category=${category}`);
-
-    if (queryParams.length > 0) {
-      url += "?" + queryParams.join("&");
-    }
-
-    console.log("🔍 Fetching events from:", url); // Debugging API request
-
-    const response = await api.get(url);
-    console.log("✅ Received Events Data:", response.data); // Debugging API response
-
+    const response = await api.get("/ticketmaster/events");
     return response.data;
   } catch (error) {
-    console.error("❌ Error fetching live events:", error.response?.data || error.message);
+    console.error("Error fetching live events:", error.response?.data || error.message);
     return [];
   }
 };
-
-
 
 
 export default api;

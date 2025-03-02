@@ -1,76 +1,54 @@
 import React, { useEffect, useState } from "react";
 import { fetchEvents } from "../services/api";
-import Select from "react-select";
-import { cityOptions } from "../data/cities"; 
+
 const Events = () => {
-  const [eventType, setEventType] = useState(""); // No default category
-  const [location, setLocation] = useState(""); // New state for city filter
+  const [eventType, setEventType] = useState("music");
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch events when eventType or location changes
+  // Fetch events whenever the eventType changes
   useEffect(() => {
     const getEvents = async () => {
       setLoading(true);
       setError(null);
-
-      console.log(`🎯 Fetching events for category: ${eventType || "All"}, location: ${location || "All"}`);
-
       try {
-        const data = await fetchEvents(location, eventType?.toLowerCase() || "");
-        console.log("📩 Received Data from API:", data);
+        // Using "New York" as the default city in your service
+        const data = await fetchEvents("New York", eventType);
+        console.log("Fetched Events Data:", data);
 
-        if (!Array.isArray(data)) {
-          console.error("🚨 API returned invalid data:", data);
-          setError("Invalid data received from the server.");
-          setLoading(false);
-          return;
-        }
-
-        const uniqueEvents = Array.from(new Map(data.map((event) => [event.id, event])).values());
+        // Remove duplicate events based on event.id
+        const uniqueEvents = Array.from(
+          new Map(data.map(event => [event.id, event])).values()
+        );
         setEvents(uniqueEvents);
       } catch (err) {
-        console.error("❌ Error fetching events:", err);
-        setError("Failed to fetch events. Please try again.");
+        console.error("Error fetching events:", err);
+        setError("Failed to fetch events. Please try again later.");
       }
-
       setLoading(false);
     };
 
     getEvents();
-  }, [eventType, location]); // ✅ Fetch new events when eventType or location changes
+  }, [eventType]);
 
   return (
     <div className="container mt-5">
       <h2 className="text-center fw-bold mb-4">🎭 Upcoming Events</h2>
 
-      {/* Event Type & Location Filters */}
+      {/* Event Type Filter */}
       <div className="filters mb-4 d-flex justify-content-center gap-3">
-        {/* Location (City) Filter */}
         <div>
-          <label htmlFor="locationSelect" className="form-label">Location:</label>
-          <Select
-            id="locationSelect"
-            options={cityOptions}
-            value={cityOptions.find(city => city.value === location)}
-            onChange={(selectedOption) => setLocation(selectedOption.value)}
-            className="form-select"
-            isSearchable // Allows searching
-          />
-        </div>
-
-        {/* Event Type Filter */}
-        <div>
-          <label htmlFor="eventTypeSelect" className="form-label">Event Type:</label>
+          <label htmlFor="eventTypeSelect" className="form-label">
+            Event Type:
+          </label>
           <select
             id="eventTypeSelect"
             value={eventType}
-            onChange={(e) => setEventType(e.target.value.toLowerCase())}
+            onChange={(e) => setEventType(e.target.value)}
             className="form-select"
           >
-            <option value="">All Events</option>
-            <option value="music">Music</option>
+            <option value="Music">Music</option>
             <option value="sports">Sports</option>
             <option value="theatre">Theatre</option>
             <option value="film">Film</option>
@@ -79,8 +57,15 @@ const Events = () => {
         </div>
       </div>
 
-      {loading && <div className="text-center fs-4 fw-bold mt-4">Loading Events...</div>}
-      {error && <div className="text-center text-danger mt-4">{error}</div>}
+      {loading && (
+        <div className="text-center fs-4 fw-bold mt-4">Loading Events...</div>
+      )}
+
+      {error && (
+        <div className="text-center text-danger mt-4">
+          {error}
+        </div>
+      )}
 
       {!loading && !error && (
         <div className="row g-4 justify-content-center">
@@ -106,9 +91,18 @@ const Events = () => {
                   {/* Event Details */}
                   <div className="card-body text-center">
                     <h6 className="card-title">{event.name}</h6>
-                    <p className="card-text small">📍 {event._embedded?.venues?.[0]?.name || "Venue TBA"}</p>
-                    <p className="card-text small">🗓 {event.dates?.start?.localDate || "Date TBA"}</p>
-                    <p className="card-text small">⏰ {event.dates?.start?.localTime || "Time TBA"}</p>
+                    <p className="card-text small">
+                      📍{" "}
+                      {event._embedded?.venues?.[0]?.name || "Venue TBA"}
+                    </p>
+                    <p className="card-text small">
+                      🗓{" "}
+                      {event.dates?.start?.localDate || "Date TBA"}
+                    </p>
+                    <p className="card-text small">
+                      ⏰{" "}
+                      {event.dates?.start?.localTime || "Time TBA"}
+                    </p>
                     <a
                       href={event.url}
                       target="_blank"
@@ -122,12 +116,50 @@ const Events = () => {
               </div>
             ))
           ) : (
-            <p className="text-center text-muted col-12">No events available for the selected filters.</p>
+            <p className="text-center text-muted col-12">
+              No events available.
+            </p>
           )}
         </div>
       )}
     </div>
   );
 };
+
+// Inject CSS Directly into the Page
+const eventStyles = `
+  .event-card {
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out;
+  }
+  .event-card:hover {
+    transform: scale(1.03);
+  }
+  .event-image-container {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f0f0;
+  }
+  .event-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    transition: background 0.3s ease;
+  }
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const styleTag = document.createElement("style");
+styleTag.innerHTML = eventStyles;
+document.head.appendChild(styleTag);
 
 export default Events;

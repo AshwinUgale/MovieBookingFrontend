@@ -1,0 +1,23 @@
+export const cityOptions = [
+    { value: "", label: "All Cities" },
+    { value: "New York", label: "New York" },
+    { value: "Los Angeles", label: "Los Angeles" },
+    { value: "Chicago", label: "Chicago" },
+    { value: "San Francisco", label: "San Francisco" },
+    { value: "Miami", label: "Miami" },
+    { value: "Houston", label: "Houston" },
+    { value: "Dallas", label: "Dallas" },
+    { value: "Philadelphia", label: "Philadelphia" },
+    { value: "Atlanta", label: "Atlanta" },
+    { value: "Denver", label: "Denver" },
+    { value: "Boston", label: "Boston" },
+    { value: "Las Vegas", label: "Las Vegas" },
+    { value: "Seattle", label: "Seattle" },
+    { value: "Washington DC", label: "Washington DC" },
+    { value: "San Diego", label: "San Diego" },
+    { value: "Austin", label: "Austin" },
+    { value: "Orlando", label: "Orlando" },
+    { value: "San Antonio", label: "San Antonio" },
+    { value: "Phoenix", label: "Phoenix" },
+  ];
+  

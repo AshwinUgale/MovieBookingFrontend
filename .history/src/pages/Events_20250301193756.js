@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchEvents } from "../services/api";
-import Select from "react-select";
-import { cityOptions } from "../data/cities"; 
+
 const Events = () => {
   const [eventType, setEventType] = useState(""); // No default category
   const [location, setLocation] = useState(""); // New state for city filter
@@ -50,13 +49,13 @@ const Events = () => {
         {/* Location (City) Filter */}
         <div>
           <label htmlFor="locationSelect" className="form-label">Location:</label>
-          <Select
+          <input
             id="locationSelect"
-            options={cityOptions}
-            value={cityOptions.find(city => city.value === location)}
-            onChange={(selectedOption) => setLocation(selectedOption.value)}
-            className="form-select"
-            isSearchable // Allows searching
+            type="text"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            className="form-control"
+            placeholder="Enter a city (e.g., Los Angeles)"
           />
         </div>
 
