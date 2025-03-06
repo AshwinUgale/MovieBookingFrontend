@@ -1,0 +1,87 @@
+/* Seat Section */
+.seat-section {
+    margin-bottom: 20px;
+}
+
+/* Seat Row: Ensures seats align properly in horizontal rows */
+.seat-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px; /* Adjust spacing between seats */
+}
+
+/* Seat Column */
+.seat-col {
+    padding: 3px; /* Reduce padding for better fit */
+}
+
+/* Seat Buttons */
+.seat-btn {
+    width: 45px; /* Proper size for better fit */
+    height: 45px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+    transition: 0.2s ease-in-out;
+}
+
+/* Seat Colors */
+.available {
+    background-color: #e0ffe0;
+    color: #000;
+    border: 1px solid green;
+}
+
+.selected {
+    background-color: green;
+    color: #fff;
+}
+
+.booked {
+    background-color: lightgray;
+    color: #888;
+    cursor: not-allowed;
+}
+
+/* Seat Legend: Properly aligned and spaced */
+.seat-legend {
+    display: flex;
+    justify-content: center; /* Center the legend */
+    gap: 20px; /* Space between legend items */
+    margin-top: 15px;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Legend Items */
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between box and text */
+}
+
+/* Legend Box Styling */
+.legend-box {
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+/* Match Seat Colors */
+.available.legend-box {
+    background-color: #e0ffe0; /* Light Green for Available */
+    border: 1px solid green;
+}
+
+.selected.legend-box {
+    background-color: green;
+}
+
+.booked.legend-box {
+    background-color: lightgray;
+}

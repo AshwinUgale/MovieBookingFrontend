@@ -1,0 +1,47 @@
+/* Seat Section */
+.seat-section {
+    margin-bottom: 20px;
+}
+
+/* Seat Row: Ensures seats align properly */
+.seat-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px; /* Less spacing between seats */
+}
+
+/* Seat Column */
+.seat-col {
+    padding: 3px; /* Reduced spacing */
+}
+
+/* Seat Buttons */
+.seat-btn {
+    width: 35px; /* Reduced size for better fit */
+    height: 35px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+    text-align: center;
+    padding: 5px;
+}
+
+/* Seat Colors */
+.available {
+    background-color: #e0ffe0;
+    color: #000;
+    border: 1px solid green;
+}
+
+.selected {
+    background-color: green;
+    color: #fff;
+}
+
+.booked {
+    background-color: lightgray;
+    color: #888;
+    cursor: not-allowed;
+}

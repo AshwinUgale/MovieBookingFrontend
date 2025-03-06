@@ -1,0 +1,74 @@
+/* Seat Grid: Ensures seats align properly in rows */
+.seat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr)); /* Auto fits in available space */
+    gap: 8px; /* Adjust spacing between seats */
+    justify-content: center;
+    padding: 10px;
+    max-width: 800px; /* Limits width for better alignment */
+    margin: auto;
+}
+
+/* Individual Seat Buttons */
+.seat-btn {
+    width: 45px;  /* Increased width for better readability */
+    height: 45px; /* Increased height for better spacing */
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+    text-align: center;
+    padding: 5px;
+}
+
+/* Seat Colors */
+.available {
+    background-color: #e0ffe0;
+    color: #000;
+    border: 1px solid green;
+}
+
+.selected {
+    background-color: green;
+    color: #fff;
+}
+
+.booked {
+    background-color: lightgray;
+    color: #888;
+    cursor: not-allowed;
+}
+
+/* Seat Legend */
+.seat-legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.legend-box {
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.available.legend-box {
+    background-color: #e0ffe0;
+    border: 1px solid green;
+}
+
+.selected.legend-box {
+    background-color: green;
+}
+
+.booked.legend-box {
+    background-color: lightgray;
+}

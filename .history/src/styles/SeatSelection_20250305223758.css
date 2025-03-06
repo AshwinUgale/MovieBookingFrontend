@@ -1,0 +1,82 @@
+/* Seat Selection Styling */
+.seat-selection-container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.screen-card {
+    text-align: center;
+    font-size: 1.2rem;
+    border-radius: 8px;
+}
+
+/* Seat Grid Layout */
+.seat-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+/* Individual Seat Buttons */
+.seat-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+}
+
+/* Seat Colors */
+.available {
+    background-color: #e0ffe0; /* Light Green */
+    color: #000;
+    border: 1px solid green;
+}
+
+.selected {
+    background-color: green;
+    color: #fff;
+}
+
+.booked {
+    background-color: lightgray;
+    color: #888;
+    cursor: not-allowed;
+}
+
+/* Seat Legend */
+.seat-legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.legend-box {
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.available.legend-box {
+    background-color: #e0ffe0;
+    border: 1px solid green;
+}
+
+.selected.legend-box {
+    background-color: green;
+}
+
+.booked.legend-box {
+    background-color: lightgray;
+}

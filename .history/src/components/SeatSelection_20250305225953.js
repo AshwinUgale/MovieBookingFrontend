@@ -96,7 +96,7 @@ const SeatSelection = ({ showtimeId }) => {
 
     return (
         <Container className="mt-4 seat-selection-container">
-           
+            <h2 className="text-center text-primary">🎭 Select Your Seats</h2>
 
             {error && <Alert variant="danger">{error}</Alert>}
 
@@ -119,7 +119,6 @@ const SeatSelection = ({ showtimeId }) => {
                 <Card className="bg-dark text-white p-3 screen-card">
                     <h5 className="mb-0">🎬 SCREEN 🎬</h5>
                     
-                </Card>
             </div>
 
             {/* Seat Grid with Sections */}

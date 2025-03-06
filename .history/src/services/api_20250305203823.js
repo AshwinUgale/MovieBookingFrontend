@@ -63,46 +63,12 @@ export const addShowtime = async (showtimeData) => {
 export const fetchSeats = async (showtimeId) => {
   try {
     const response = await api.get(`/showtimes/${showtimeId}`);
-
-    // Check if showtime exists and has available seats
-    if (response.data && response.data.availableSeats.length > 0) {
-      return response.data.availableSeats;
-    } else {
-      console.warn("No seats found for this showtime, generating a reduced seat layout.");
-      
-      // Generate a reduced fallback seat layout
-      return generateReducedSeats();
-    }
+    return response.data.availableSeats; 
   } catch (error) {
-    console.error("Error fetching seats, generating fallback data:", error);
-
-    // Return a reduced fallback seat layout in case of error
-    return generateReducedSeats();
+    console.error("Error fetching seats:", error);
+    throw error;
   }
 };
-
-// ✅ Function to Generate a Reduced Theater Layout (30-40% fewer seats)
-const generateReducedSeats = () => {
-  const sections = ["VIP", "Platinum", "Gold", "Silver", "Economy"];
-  let generatedSeats = [];
-
-  sections.forEach((section) => {
-    for (let row = 1; row <= 5; row++) { // Reduced from 7 to 5 rows
-      for (let seat = 1; seat <= 8; seat++) { // Reduced from 12 to 8 seats per row
-        generatedSeats.push({
-          id: `${section}-${row}-${seat}`,
-          number: `${section[0]}${row}${seat}`, // Example: V12, P32
-          type: section,
-          booked: Math.random() < 0.1 // 10% seats randomly booked
-        });
-      }
-    }
-  });
-
-  return generatedSeats;
-};
-
-
 
 
 export const bookSeats = async (showtimeId, seats) => {

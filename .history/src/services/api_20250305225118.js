@@ -68,27 +68,27 @@ export const fetchSeats = async (showtimeId) => {
     if (response.data && response.data.availableSeats.length > 0) {
       return response.data.availableSeats;
     } else {
-      console.warn("No seats found for this showtime, generating a reduced seat layout.");
+      console.warn("No seats found for this showtime, generating a full seat layout.");
       
-      // Generate a reduced fallback seat layout
-      return generateReducedSeats();
+      // Generate a full fallback seat layout
+      return generateFallbackSeats();
     }
   } catch (error) {
     console.error("Error fetching seats, generating fallback data:", error);
 
-    // Return a reduced fallback seat layout in case of error
-    return generateReducedSeats();
+    // Return a full fallback seat layout in case of error
+    return generateFallbackSeats();
   }
 };
 
-// ✅ Function to Generate a Reduced Theater Layout (30-40% fewer seats)
-const generateReducedSeats = () => {
+// ✅ Function to Generate a Full Theater Layout
+const generateFallbackSeats = () => {
   const sections = ["VIP", "Platinum", "Gold", "Silver", "Economy"];
   let generatedSeats = [];
 
   sections.forEach((section) => {
-    for (let row = 1; row <= 5; row++) { // Reduced from 7 to 5 rows
-      for (let seat = 1; seat <= 8; seat++) { // Reduced from 12 to 8 seats per row
+    for (let row = 1; row <= 7; row++) { // Increase rows
+      for (let seat = 1; seat <= 12; seat++) { // Increase seats per row
         generatedSeats.push({
           id: `${section}-${row}-${seat}`,
           number: `${section[0]}${row}${seat}`, // Example: V12, P32
@@ -101,7 +101,6 @@ const generateReducedSeats = () => {
 
   return generatedSeats;
 };
-
 
 
 

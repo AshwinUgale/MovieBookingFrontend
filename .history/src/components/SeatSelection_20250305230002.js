@@ -96,7 +96,7 @@ const SeatSelection = ({ showtimeId }) => {
 
     return (
         <Container className="mt-4 seat-selection-container">
-           
+            <h2 className="text-center text-primary">🎭 Select Your Seats</h2>
 
             {error && <Alert variant="danger">{error}</Alert>}
 

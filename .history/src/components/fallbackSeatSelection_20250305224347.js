@@ -25,9 +25,10 @@ const SeatSelection = ({ showtimeId }) => {
             try {
                 const availableSeats = await fetchSeats(showtimeId);
 
-                // If no seats are returned, generate default seats
-                if (!availableSeats || availableSeats.length === 0) {
-                    setSeats(generateSeats());
+                // If no seats are returned, create a large default set
+                if (availableSeats.length === 0) {
+                    const defaultSeats = generateSeats();
+                    setSeats(defaultSeats);
                 } else {
                     setSeats(availableSeats);
                 }
@@ -42,13 +43,14 @@ const SeatSelection = ({ showtimeId }) => {
     const generateSeats = () => {
         const sections = ["VIP", "Platinum", "Gold", "Silver", "Economy"];
         let generatedSeats = [];
+        let seatNumber = 1;
 
         sections.forEach((section) => {
-            for (let row = 1; row <= 8; row++) { // Increased rows for better layout
-                for (let seat = 1; seat <= 20; seat++) { // More seats per row
+            for (let row = 1; row <= 5; row++) { // 5 Rows per section
+                for (let seat = 1; seat <= 20; seat++) { // 20 seats per row
                     generatedSeats.push({
                         id: `${section}-${row}-${seat}`,
-                        number: `${section[0]}${row}${seat}`, // Format: V12, P32
+                        number: seatNumber++,
                         type: section,
                         booked: Math.random() < 0.1 // 10% seats randomly booked
                     });
@@ -96,59 +98,37 @@ const SeatSelection = ({ showtimeId }) => {
 
     return (
         <Container className="mt-4 seat-selection-container">
-           
+            <h2 className="text-center text-primary">🎭 Select Your Seats</h2>
 
             {error && <Alert variant="danger">{error}</Alert>}
-
-             {/* Seat Legend */}
-             <div className="text-center mt-4 seat-legend">
-                <span className="legend-item">
-                    <span className="legend-box available"></span> Available
-                </span>
-                <span className="legend-item">
-                    <span className="legend-box selected"></span> Selected
-                </span>
-                <span className="legend-item">
-                    <span className="legend-box booked"></span> Sold
-                </span>
-            </div>
-
 
             {/* Screen View */}
             <div className="text-center my-3">
                 <Card className="bg-dark text-white p-3 screen-card">
                     <h5 className="mb-0">🎬 SCREEN 🎬</h5>
-                    
+                    <p className="text-muted">All eyes this way please!</p>
                 </Card>
             </div>
 
             {/* Seat Grid with Sections */}
             {Object.entries(groupedSeats).map(([section, seats]) => (
-                <div key={section} className="seat-section">
+                <div key={section}>
                     <h5 className="text-center mt-3">{section} Section (${seatPrices[section]} per seat)</h5>
-                    
-                    {/* Display seats in rows with multiple columns */}
-                    <Container>
-                        {Array.from({ length: Math.ceil(seats.length / 10) }, (_, rowIndex) => (
-                            <Row key={rowIndex} className="justify-content-center seat-row">
-                                {seats.slice(rowIndex * 10, rowIndex * 10 + 10).map((seat) => (
-                                    <Col key={seat.id} className="seat-col">
-                                        <Button
-                                            className={`seat-btn ${selectedSeats.includes(seat) ? "selected" : seat.booked ? "booked" : "available"}`}
-                                            onClick={() => !seat.booked && toggleSeatSelection(seat)}
-                                            disabled={seat.booked}
-                                        >
-                                            {seat.number}
-                                        </Button>
-                                    </Col>
-                                ))}
-                            </Row>
+                    <Row className="justify-content-center mt-2 seat-grid">
+                        {seats.map((seat) => (
+                            <Col xs={1} md={1} key={seat.id} className="seat-col">
+                                <Button
+                                    className={`seat-btn ${selectedSeats.includes(seat) ? "selected" : seat.booked ? "booked" : "available"}`}
+                                    onClick={() => !seat.booked && toggleSeatSelection(seat)}
+                                    disabled={seat.booked}
+                                >
+                                    {seat.number}
+                                </Button>
+                            </Col>
                         ))}
-                    </Container>
+                    </Row>
                 </div>
             ))}
-
-
 
             {/* Booking Summary */}
             <Card className="mt-4 p-3 shadow-sm">
@@ -177,7 +157,12 @@ const SeatSelection = ({ showtimeId }) => {
                 </Button>
             </div>
 
-           
+            {/* Seat Legend */}
+            <div className="text-center mt-4 seat-legend">
+                <span className="legend-item"><span className="legend-box available"></span> Available</span>
+                <span className="legend-item"><span className="legend-box selected"></span> Selected</span>
+                <span className="legend-item"><span className="legend-box booked"></span> Sold</span>
+            </div>
         </Container>
     );
 };

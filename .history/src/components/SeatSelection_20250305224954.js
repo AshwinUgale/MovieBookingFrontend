@@ -96,29 +96,15 @@ const SeatSelection = ({ showtimeId }) => {
 
     return (
         <Container className="mt-4 seat-selection-container">
-           
+            <h2 className="text-center text-primary">🎭 Select Your Seats</h2>
 
             {error && <Alert variant="danger">{error}</Alert>}
-
-             {/* Seat Legend */}
-             <div className="text-center mt-4 seat-legend">
-                <span className="legend-item">
-                    <span className="legend-box available"></span> Available
-                </span>
-                <span className="legend-item">
-                    <span className="legend-box selected"></span> Selected
-                </span>
-                <span className="legend-item">
-                    <span className="legend-box booked"></span> Sold
-                </span>
-            </div>
-
 
             {/* Screen View */}
             <div className="text-center my-3">
                 <Card className="bg-dark text-white p-3 screen-card">
                     <h5 className="mb-0">🎬 SCREEN 🎬</h5>
-                    
+                    <p className="text-muted">All eyes this way please!</p>
                 </Card>
             </div>
 
@@ -177,7 +163,12 @@ const SeatSelection = ({ showtimeId }) => {
                 </Button>
             </div>
 
-           
+            {/* Seat Legend */}
+            <div className="text-center mt-4 seat-legend">
+                <span className="legend-item"><span className="legend-box available"></span> Available</span>
+                <span className="legend-item"><span className="legend-box selected"></span> Selected</span>
+                <span className="legend-item"><span className="legend-box booked"></span> Sold</span>
+            </div>
         </Container>
     );
 };

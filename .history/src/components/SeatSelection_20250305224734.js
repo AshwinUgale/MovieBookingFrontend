@@ -96,58 +96,38 @@ const SeatSelection = ({ showtimeId }) => {
 
     return (
         <Container className="mt-4 seat-selection-container">
-           
+            <h2 className="text-center text-primary">🎭 Select Your Seats</h2>
 
             {error && <Alert variant="danger">{error}</Alert>}
-
-             {/* Seat Legend */}
-             <div className="text-center mt-4 seat-legend">
-                <span className="legend-item">
-                    <span className="legend-box available"></span> Available
-                </span>
-                <span className="legend-item">
-                    <span className="legend-box selected"></span> Selected
-                </span>
-                <span className="legend-item">
-                    <span className="legend-box booked"></span> Sold
-                </span>
-            </div>
-
 
             {/* Screen View */}
             <div className="text-center my-3">
                 <Card className="bg-dark text-white p-3 screen-card">
                     <h5 className="mb-0">🎬 SCREEN 🎬</h5>
-                    
+                    <p className="text-muted">All eyes this way please!</p>
                 </Card>
             </div>
 
             {/* Seat Grid with Sections */}
             {Object.entries(groupedSeats).map(([section, seats]) => (
-                <div key={section} className="seat-section">
+                <div key={section}>
                     <h5 className="text-center mt-3">{section} Section (${seatPrices[section]} per seat)</h5>
                     
-                    {/* Display seats in rows with multiple columns */}
-                    <Container>
-                        {Array.from({ length: Math.ceil(seats.length / 10) }, (_, rowIndex) => (
-                            <Row key={rowIndex} className="justify-content-center seat-row">
-                                {seats.slice(rowIndex * 10, rowIndex * 10 + 10).map((seat) => (
-                                    <Col key={seat.id} className="seat-col">
-                                        <Button
-                                            className={`seat-btn ${selectedSeats.includes(seat) ? "selected" : seat.booked ? "booked" : "available"}`}
-                                            onClick={() => !seat.booked && toggleSeatSelection(seat)}
-                                            disabled={seat.booked}
-                                        >
-                                            {seat.number}
-                                        </Button>
-                                    </Col>
-                                ))}
-                            </Row>
+                    {/* Wrap seats inside a flex container to align them in rows */}
+                    <div className="seat-grid">
+                        {seats.map((seat) => (
+                            <button
+                                key={seat.id}
+                                className={`seat-btn ${selectedSeats.includes(seat) ? "selected" : seat.booked ? "booked" : "available"}`}
+                                onClick={() => !seat.booked && toggleSeatSelection(seat)}
+                                disabled={seat.booked}
+                            >
+                                {seat.number}
+                            </button>
                         ))}
-                    </Container>
+                    </div>
                 </div>
             ))}
-
 
 
             {/* Booking Summary */}
@@ -177,7 +157,12 @@ const SeatSelection = ({ showtimeId }) => {
                 </Button>
             </div>
 
-           
+            {/* Seat Legend */}
+            <div className="text-center mt-4 seat-legend">
+                <span className="legend-item"><span className="legend-box available"></span> Available</span>
+                <span className="legend-item"><span className="legend-box selected"></span> Selected</span>
+                <span className="legend-item"><span className="legend-box booked"></span> Sold</span>
+            </div>
         </Container>
     );
 };

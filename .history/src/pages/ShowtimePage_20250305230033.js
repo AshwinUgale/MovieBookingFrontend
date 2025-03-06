@@ -34,7 +34,7 @@ const ShowtimePage = () => {
 
     return (
         <Container className="mt-4">
-            <h1 className="text-center">🎟️ Book Your Seats</h1>
+           
 
             {loading ? (
                 <div className="text-center">

@@ -96,12 +96,12 @@ const SeatSelection = ({ showtimeId }) => {
 
     return (
         <Container className="mt-4 seat-selection-container">
-           
-
+            <h2 className="text-center text-primary">🎭 Select Your Seats</h2>
+    
             {error && <Alert variant="danger">{error}</Alert>}
-
-             {/* Seat Legend */}
-             <div className="text-center mt-4 seat-legend">
+    
+            {/* Move the Seat Legend to the Top */}
+            <div className="text-center mt-3 seat-legend">
                 <span className="legend-item">
                     <span className="legend-box available"></span> Available
                 </span>
@@ -112,27 +112,25 @@ const SeatSelection = ({ showtimeId }) => {
                     <span className="legend-box booked"></span> Sold
                 </span>
             </div>
-
-
+    
             {/* Screen View */}
             <div className="text-center my-3">
                 <Card className="bg-dark text-white p-3 screen-card">
                     <h5 className="mb-0">🎬 SCREEN 🎬</h5>
-                    
+                    <p className="text-muted">All eyes this way please!</p>
                 </Card>
             </div>
-
+    
             {/* Seat Grid with Sections */}
             {Object.entries(groupedSeats).map(([section, seats]) => (
                 <div key={section} className="seat-section">
                     <h5 className="text-center mt-3">{section} Section (${seatPrices[section]} per seat)</h5>
-                    
-                    {/* Display seats in rows with multiple columns */}
+    
                     <Container>
                         {Array.from({ length: Math.ceil(seats.length / 10) }, (_, rowIndex) => (
                             <Row key={rowIndex} className="justify-content-center seat-row">
                                 {seats.slice(rowIndex * 10, rowIndex * 10 + 10).map((seat) => (
-                                    <Col key={seat.id} className="seat-col">
+                                    <Col xs="auto" key={seat.id} className="seat-col">
                                         <Button
                                             className={`seat-btn ${selectedSeats.includes(seat) ? "selected" : seat.booked ? "booked" : "available"}`}
                                             onClick={() => !seat.booked && toggleSeatSelection(seat)}
@@ -147,9 +145,7 @@ const SeatSelection = ({ showtimeId }) => {
                     </Container>
                 </div>
             ))}
-
-
-
+    
             {/* Booking Summary */}
             <Card className="mt-4 p-3 shadow-sm">
                 <h5 className="text-center">🎟️ Booking Summary</h5>
@@ -165,7 +161,7 @@ const SeatSelection = ({ showtimeId }) => {
                     )}
                 </p>
             </Card>
-
+    
             {/* Booking Button */}
             <div className="text-center mt-4">
                 <Button 
@@ -176,10 +172,9 @@ const SeatSelection = ({ showtimeId }) => {
                     {loading ? <Spinner as="span" animation="border" size="sm" /> : "Confirm Booking"}
                 </Button>
             </div>
-
-           
         </Container>
     );
+    
 };
 
 export default SeatSelection;

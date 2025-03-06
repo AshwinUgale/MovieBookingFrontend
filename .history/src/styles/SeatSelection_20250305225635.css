@@ -1,0 +1,39 @@
+/* Seat Legend: Ensure proper alignment and spacing */
+.seat-legend {
+    display: flex;
+    justify-content: center; /* Center the legend */
+    gap: 20px; /* Space between legend items */
+    margin-top: 15px;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Legend Items */
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between box and text */
+}
+
+/* Legend Box Styling */
+.legend-box {
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+/* Match Seat Colors */
+.available.legend-box {
+    background-color: #e0ffe0; /* Light Green for Available */
+    border: 1px solid green;
+}
+
+.selected.legend-box {
+    background-color: green;
+}
+
+.booked.legend-box {
+    background-color: lightgray;
+}
