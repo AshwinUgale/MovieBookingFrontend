@@ -36,30 +36,18 @@ const SeatSelection = ({ showtimeId }) => {
             alert("Please select at least one seat.");
             return;
         }
-    
         setLoading(true);
-    
         try {
-            // ✅ Clean the seat data before sending to API
-            const sanitizedSeats = selectedSeats.map(seat => ({
-                id: seat.id,
-                number: seat.number,
-                price: 1
-            }));
-    
-            console.log("📤 Sending cleaned seats:", sanitizedSeats);
-    
-            const response = await bookSeats(showtimeId, sanitizedSeats);
+            const response = await bookSeats(showtimeId, selectedSeats);
             alert("Booking confirmed! Proceeding to payment...");
             setSelectedSeats([]);
             navigate(`/payment/${response.booking._id}`);
-        } catch (error) {
+        } catch (err) {
             setError("Booking failed. Please try again.");
         }
-    
         setLoading(false);
     };
-    
+
     // 💰 Calculate total price
     const totalPrice = selectedSeats.reduce((total, seat) => total + (seat.price || 1), 0);
 

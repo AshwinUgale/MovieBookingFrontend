@@ -36,34 +36,19 @@ const SeatSelection = ({ showtimeId }) => {
             alert("Please select at least one seat.");
             return;
         }
-    
         setLoading(true);
-    
         try {
-            // ✅ Clean the seat data before sending to API
-            const sanitizedSeats = selectedSeats.map(seat => ({
-                id: seat.id,
-                number: seat.number,
-                price: 1
-            }));
-    
-            console.log("📤 Sending cleaned seats:", sanitizedSeats);
-    
-            const response = await bookSeats(showtimeId, sanitizedSeats);
+            const response = await bookSeats(showtimeId, selectedSeats);
             alert("Booking confirmed! Proceeding to payment...");
             setSelectedSeats([]);
             navigate(`/payment/${response.booking._id}`);
-        } catch (error) {
+        } catch (err) {
             setError("Booking failed. Please try again.");
         }
-    
         setLoading(false);
     };
-    
-    // 💰 Calculate total price
-    const totalPrice = selectedSeats.reduce((total, seat) => total + (seat.price || 1), 0);
 
-    // 📌 Group seats by row
+    // Group seats by row (e.g. A, B, C...)
     const groupedByRow = seats.reduce((acc, seat) => {
         const row = seat.number.charAt(0);
         if (!acc[row]) acc[row] = [];
@@ -89,18 +74,14 @@ const SeatSelection = ({ showtimeId }) => {
                 </Card>
             </div>
 
-            {/* Seat Grid */}
+            {/* Seat Grid (Clean Rows) */}
             <div className="text-center mt-3">
                 {Object.entries(groupedByRow)
-                    .sort(([a], [b]) => a.localeCompare(b)) // Sort rows alphabetically
+                    .sort((a, b) => a[0].localeCompare(b[0]))
                     .map(([row, rowSeats]) => (
                         <div key={row} className="seat-row mb-2">
                             {rowSeats
-                                .sort((a, b) => {
-                                    const numA = parseInt(a.number.slice(row.length));
-                                    const numB = parseInt(b.number.slice(row.length));
-                                    return numA - numB;
-                                })
+                                .sort((a, b) => parseInt(a.number.slice(1)) - parseInt(b.number.slice(1)))
                                 .map((seat) => (
                                     <Button
                                         key={seat.id}
@@ -122,18 +103,17 @@ const SeatSelection = ({ showtimeId }) => {
             {/* Booking Summary */}
             <Card className="mt-4 p-3 shadow-sm">
                 <h5 className="text-center">🎟️ Booking Summary</h5>
-                {selectedSeats.length > 0 ? (
-                    <>
-                        <p className="text-muted">
-                            Selected Seats: <strong>{selectedSeats.map((seat) => seat.number).join(", ")}</strong><br />
-                            Seat Price: <strong>${selectedSeats[0].price || 1}</strong><br />
-                            Total Seats: <strong>{selectedSeats.length}</strong><br />
-                            Total Price: <strong>${totalPrice}</strong>
-                        </p>
-                    </>
-                ) : (
-                    <p className="text-muted">No seats selected.</p>
-                )}
+                <p className="text-muted">
+                    {selectedSeats.length > 0 ? (
+                        <>
+                            Selected Seats: <strong>{selectedSeats.map((seat) => seat.number).join(", ")}</strong>
+                            <br />
+                            Total Seats: <strong>{selectedSeats.length}</strong>
+                        </>
+                    ) : (
+                        "No seats selected."
+                    )}
+                </p>
             </Card>
 
             {/* Booking Button */}

@@ -94,14 +94,15 @@ const generateReducedSeats = () => {
 
 
 
-export const bookSeats = async (showtimeId, selectedSeats) => {
-  const response = await api.post("/bookings", {
-    showtimeId,
-    seats: selectedSeats,
-  });
-  return response.data;
+export const bookSeats = async (showtimeId, seats) => {
+  try {
+    const response = await api.post("/bookings", { showtimeId, seats });
+    return response.data;
+  } catch (error) {
+    console.error("Error booking seats:", error);
+    throw error;
+  }
 };
-
 
 export const mockPayment = async (bookingId) => {
   try {

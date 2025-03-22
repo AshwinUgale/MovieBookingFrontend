@@ -14,7 +14,7 @@ import BookingHistoryPage from "./pages/BookingHistoryPage";
 import CustomNavbar from "./components/Navbar";
 import AuthProvider from "./context/AuthContext"; 
 import Events from "./pages/Events";
-
+import FallbackSeatSelection from "./components/fallbackSeatSelection";
 
 
 function App() {

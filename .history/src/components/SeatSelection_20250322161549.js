@@ -1,0 +1,118 @@
+import { useState, useEffect } from "react";
+import { fetchSeats, bookSeats } from "../services/api";
+import { useNavigate } from "react-router-dom";
+import { Container, Row, Col, Button, Alert, Spinner, Card } from "react-bootstrap";
+import "../styles/SeatSelection.css";
+
+const SeatSelection = ({ showtimeId }) => {
+    const [seats, setSeats] = useState([]);
+    const [selectedSeats, setSelectedSeats] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const loadSeats = async () => {
+            try {
+                const availableSeats = await fetchSeats(showtimeId);
+                setSeats(availableSeats);
+            } catch (error) {
+                setError("Failed to fetch seats.");
+            }
+        };
+        loadSeats();
+    }, [showtimeId]);
+
+    const toggleSeatSelection = (seat) => {
+        if (selectedSeats.includes(seat)) {
+            setSelectedSeats(selectedSeats.filter((s) => s !== seat));
+        } else {
+            setSelectedSeats([...selectedSeats, seat]);
+        }
+    };
+
+    const handleBooking = async () => {
+        if (selectedSeats.length === 0) {
+            alert("Please select at least one seat.");
+            return;
+        }
+        setLoading(true);
+        try {
+            const response = await bookSeats(showtimeId, selectedSeats);
+            alert("Booking confirmed! Proceeding to payment...");
+            setSelectedSeats([]);
+            navigate(`/payment/${response.booking._id}`);
+        } catch (error) {
+            setError("Booking failed. Please try again.");
+        }
+        setLoading(false);
+    };
+
+    return (
+        <Container className="mt-4 seat-selection-container">
+            {error && <Alert variant="danger">{error}</Alert>}
+
+            {/* Legend */}
+            <div className="text-center mt-4 seat-legend">
+                <span className="legend-item"><span className="legend-box available"></span> Available</span>
+                <span className="legend-item"><span className="legend-box selected"></span> Selected</span>
+                <span className="legend-item"><span className="legend-box booked"></span> Sold</span>
+            </div>
+
+            {/* Screen View */}
+            <div className="text-center my-3">
+                <Card className="bg-dark text-white p-3 screen-card">
+                    <h5 className="mb-0">🎬 SCREEN 🎬</h5>
+                </Card>
+            </div>
+
+            {/* Seat Grid (flat layout) */}
+            <Container>
+                {Array.from({ length: Math.ceil(seats.length / 10) }, (_, rowIndex) => (
+                    <Row key={rowIndex} className="justify-content-center seat-row">
+                        {seats.slice(rowIndex * 10, rowIndex * 10 + 10).map((seat) => (
+                            <Col key={seat.id} className="seat-col">
+                                <Button
+                                    className={`seat-btn ${selectedSeats.includes(seat) ? "selected" : seat.booked ? "booked" : "available"}`}
+                                    onClick={() => !seat.booked && toggleSeatSelection(seat)}
+                                    disabled={seat.booked}
+                                >
+                                    {seat.number}
+                                </Button>
+                            </Col>
+                        ))}
+                    </Row>
+                ))}
+            </Container>
+
+            {/* Booking Summary */}
+            <Card className="mt-4 p-3 shadow-sm">
+                <h5 className="text-center">🎟️ Booking Summary</h5>
+                <p className="text-muted">
+                    {selectedSeats.length > 0 ? (
+                        <>
+                            Selected Seats: <strong>{selectedSeats.map((seat) => seat.number).join(", ")}</strong>
+                            <br />
+                            Total Seats: <strong>{selectedSeats.length}</strong>
+                        </>
+                    ) : (
+                        "No seats selected."
+                    )}
+                </p>
+            </Card>
+
+            {/* Booking Button */}
+            <div className="text-center mt-4">
+                <Button
+                    variant="primary"
+                    onClick={handleBooking}
+                    disabled={loading || selectedSeats.length === 0}
+                >
+                    {loading ? <Spinner as="span" animation="border" size="sm" /> : "Confirm Booking"}
+                </Button>
+            </div>
+        </Container>
+    );
+};
+
+export default SeatSelection;

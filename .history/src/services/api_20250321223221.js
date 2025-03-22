@@ -25,7 +25,6 @@ export const fetchMovies = async () => {
 export const fetchShowtimes = async (movieId) => {
   try {
     const response = await api.get(`/showtimes/fake?movie=${movieId}`);
-    console.log("🎬 API response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching showtimes:", error);
@@ -55,20 +54,23 @@ export const addShowtime = async (showtimeData) => {
 export const fetchSeats = async (showtimeId) => {
   try {
     const response = await api.get(`/showtimes/${showtimeId}`);
-    console.log("🎯 Seat API response:", response.data);
 
-    if (response.data && Array.isArray(response.data.availableSeats) && response.data.availableSeats.length > 0) {
+    // Check if showtime exists and has available seats
+    if (response.data && response.data.availableSeats.length > 0) {
       return response.data.availableSeats;
     } else {
-      console.warn("🚨 No availableSeats or empty, falling back.");
+      console.warn("No seats found for this showtime, generating a reduced seat layout.");
+      
+      // Generate a reduced fallback seat layout
       return generateReducedSeats();
     }
   } catch (error) {
-    console.error("❌ Error fetching seats:", error);
+    console.error("Error fetching seats, generating fallback data:", error);
+
+    // Return a reduced fallback seat layout in case of error
     return generateReducedSeats();
   }
 };
-
 
 // ✅ Function to Generate a Reduced Theater Layout (30-40% fewer seats)
 const generateReducedSeats = () => {
@@ -94,14 +96,15 @@ const generateReducedSeats = () => {
 
 
 
-export const bookSeats = async (showtimeId, selectedSeats) => {
-  const response = await api.post("/bookings", {
-    showtimeId,
-    seats: selectedSeats,
-  });
-  return response.data;
+export const bookSeats = async (showtimeId, seats) => {
+  try {
+    const response = await api.post("/bookings", { showtimeId, seats });
+    return response.data;
+  } catch (error) {
+    console.error("Error booking seats:", error);
+    throw error;
+  }
 };
-
 
 export const mockPayment = async (bookingId) => {
   try {

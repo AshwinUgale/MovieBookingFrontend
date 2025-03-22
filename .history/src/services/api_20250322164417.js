@@ -95,13 +95,23 @@ const generateReducedSeats = () => {
 
 
 export const bookSeats = async (showtimeId, selectedSeats) => {
-  const response = await api.post("/bookings", {
-    showtimeId,
-    seats: selectedSeats,
-  });
+  const token = localStorage.getItem("token"); // or however you store your JWT
+
+  const response = await axios.post(
+    "/bookings",
+    {
+      showtimeId,
+      seats: selectedSeats,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
   return response.data;
 };
-
 
 export const mockPayment = async (bookingId) => {
   try {
