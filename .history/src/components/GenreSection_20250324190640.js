@@ -6,9 +6,25 @@ const GenreSection = () => {
 
   useEffect(() => {
     async function fetchGenres() {
-      const response = await api.get("/movies");
-      setGenres([...new Set(response.data.map(movie => movie.genre))]);
+      try {
+        const response = await api.get("/movies");
+        const genreSet = new Set();
+
+        // Flatten genres across all movies
+        response.data.forEach(movie => {
+          if (Array.isArray(movie.genre)) {
+            movie.genre.forEach(g => genreSet.add(g.trim()));
+          } else if (typeof movie.genre === "string") {
+            movie.genre.split(",").forEach(g => genreSet.add(g.trim()));
+          }
+        });
+
+        setGenres([...genreSet]);
+      } catch (err) {
+        console.error("Error fetching genres:", err);
+      }
     }
+
     fetchGenres();
   }, []);
 

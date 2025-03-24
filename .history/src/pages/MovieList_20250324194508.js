@@ -31,7 +31,7 @@ const MovieList = () => {
           : data;
 
         setMovies(filtered);
-        setVisibleCount(16); // ✅ Reset count when genre changes
+        setVisibleCount(8); // ✅ Reset count when genre changes
       } catch (error) {
         console.error("Error fetching movies:", error);
       }

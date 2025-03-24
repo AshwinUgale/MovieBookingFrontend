@@ -7,20 +7,26 @@ const GenreSection = () => {
   useEffect(() => {
     async function fetchGenres() {
       try {
-        const response = await api.get("/movies/genres");
-        console.log("📦 Genres API Response:", response.data);
+        const response = await api.get("/movies");
+        const genreSet = new Set();
 
-        // Make sure the response is an array
+        // Flatten genres across all movies
         if (!Array.isArray(response.data)) {
           console.error("Genres API returned non-array data:", response.data);
           return;
         }
+        
+        response.data.forEach(movie => {
+          if (Array.isArray(movie.genre)) {
+            movie.genre.forEach(g => genreSet.add(g.trim()));
+          } else if (typeof movie.genre === "string") {
+            movie.genre.split(",").forEach(g => genreSet.add(g.trim()));
+          }
+        });
 
-        // Extract genre names
-        const genreNames = response.data.map((g) => g.name);
-        setGenres(genreNames);
+        setGenres([...genreSet]);
       } catch (err) {
-        console.error("🔥 Error in fetchGenres:", err.message);
+        console.error("Error fetching genres:", err);
       }
     }
 
@@ -31,12 +37,8 @@ const GenreSection = () => {
     <div className="container my-5">
       <h2 className="text-center">🎭 Browse by Genre</h2>
       <div className="d-flex flex-wrap justify-content-center">
-        {genres.map((genre, index) => (
-          <a
-            key={`${genre}-${index}`}
-            href={`/movies?genre=${genre}`}
-            className="btn btn-outline-secondary m-2"
-          >
+        {genres.map(genre => (
+          <a key={genre} href={`/movies?genre=${genre}`} className="btn btn-outline-secondary m-2">
             {genre}
           </a>
         ))}

@@ -7,7 +7,7 @@ const GenreSection = () => {
   useEffect(() => {
     async function fetchGenres() {
       try {
-        const response = await api.get("/movies/genres");
+        const response = await api.get("/api/movies/genres");
         console.log("📦 Genres API Response:", response.data);
 
         // Make sure the response is an array

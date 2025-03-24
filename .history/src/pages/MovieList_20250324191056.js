@@ -31,7 +31,7 @@ const MovieList = () => {
           : data;
 
         setMovies(filtered);
-        setVisibleCount(16); // ✅ Reset count when genre changes
+        setVisibleCount(8); // ✅ Reset count when genre changes
       } catch (error) {
         console.error("Error fetching movies:", error);
       }
@@ -40,9 +40,7 @@ const MovieList = () => {
 
     getMovies();
   }, [location.search]);
-  console.log("📦 Movies state:", movies);
-  console.log("📦 Loading state:", loading);
-  
+
   return (
     <div>
       <GenreSection />
@@ -57,7 +55,7 @@ const MovieList = () => {
           <>
             <Row className="mt-4">
               {/* ✅ Only show up to visibleCount */}
-              {Array.isArray(movies) && movies.slice(0, visibleCount).map((movie) => (
+              {movies.slice(0, visibleCount).map((movie) => (
                 <Col key={movie._id} xs={12} sm={6} md={4} lg={3} className="mb-3">
                   <Card className="shadow-sm text-center" style={{ width: "100%", maxWidth: "220px", margin: "auto" }}>
                     <div
