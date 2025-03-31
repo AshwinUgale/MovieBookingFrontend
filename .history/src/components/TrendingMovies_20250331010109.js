@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../services/api";
 import { Card, Row, Col, Badge } from "react-bootstrap";
-import { FaStar, FaFire } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
 
 const TrendingMovies = () => {
   const [movies, setMovies] = useState([]);
@@ -20,10 +20,7 @@ const TrendingMovies = () => {
 
   return (
     <div className="container my-5">
-      <h2 className="text-center text-light mb-4">
-        <FaFire className="me-2 text-danger" />
-        Trending Now
-      </h2>
+      <h2 className="text-center">🔥 Trending Now</h2>
       <Row>
         {movies.map(movie => (
           <Col key={movie._id} md={4} className="mb-4">

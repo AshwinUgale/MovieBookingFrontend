@@ -97,7 +97,7 @@ const HeroSection = () => {
         pause="hover"
       >
         {movies.map((movie, slideIndex) => (
-          <Carousel.Item key={slideIndex} className={isTransitioning ? 'transitioning' : ''} style={{zIndex: 10}}>
+          <Carousel.Item key={slideIndex} className={isTransitioning ? 'transitioning' : ''}>
             <div className="hero-overlay"></div>
             <div className="hero-slide d-flex align-items-center">
               <Container>
@@ -108,16 +108,12 @@ const HeroSection = () => {
                       <img
                         src={movie.posterUrl || "/fallback.jpg"}
                         alt={movie.title}
-                        className="hero-img"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = "/fallback.jpg";
-                        }}
+                        className="img-fluid hero-img"
                       />
                       <div className="image-overlay-buttons">
                         <Button variant="light" className="play-trailer-btn">
-                          <FaPlay className="me-1" />
-                          Trailer
+                          <FaPlay />
+                          <span className="ms-1">Trailer</span>
                         </Button>
                       </div>
                     </div>
@@ -157,24 +153,20 @@ const HeroSection = () => {
                       
                       {/* CTA Buttons */}
                       <div className="hero-cta delay-4">
-                        <Button 
-                          variant="primary" 
-                          size="lg" 
-                          className="me-2 book-btn"
-                          href={`/movies/${movie._id}`}
+                        <a 
+                          href={`/movies/${movie._id}`} 
+                          className="btn btn-primary btn-lg me-2"
                         >
                           <FaTicketAlt className="me-2" />
                           Book Now
-                        </Button>
-                        <Button 
-                          variant="outline-light" 
-                          size="lg"
-                          className="details-btn"
+                        </a>
+                        <a 
                           href={`/movies/${movie._id}/details`}
+                          className="btn btn-outline-light btn-lg"
                         >
                           <FaInfoCircle className="me-2" />
                           Movie Details
-                        </Button>
+                        </a>
                       </div>
                     </div>
                   </Col>
@@ -202,7 +194,7 @@ const HeroSection = () => {
 // Enhanced Styles
 const heroStyle = `
   .hero-container {
-    background: #000000;
+    background: linear-gradient(135deg, #0d0d0d 0%, #292929 100%);
     position: relative;
     overflow: hidden;
     padding: 0;
@@ -236,17 +228,16 @@ const heroStyle = `
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.7) 100%);
+    background: radial-gradient(circle at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.8) 100%);
     z-index: 1;
   }
   
   .hero-slide {
     position: relative;
-    z-index: 3;
-    min-height: 650px;
+    z-index: 2;
+    min-height: 600px;
     display: flex;
     align-items: center;
-    padding: 40px 0;
   }
   
   /* Image Container with Effects */
@@ -255,12 +246,9 @@ const heroStyle = `
     transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.6s ease;
     transform: translateY(30px);
     opacity: 0;
-    border-radius: 12px;
+    border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-    max-width: 320px;
-    height: 450px;
-    margin: 0 auto;
   }
   
   .hero-image-container.active {
@@ -269,11 +257,10 @@ const heroStyle = `
   }
   
   .hero-img {
-    width: 100%;
-    height: 100%;
+    max-height: 450px;
     object-fit: cover;
-    object-position: center top;
-    border-radius: 12px;
+    width: 100%;
+    border-radius: 15px;
     transition: transform 0.5s ease;
   }
   
@@ -291,7 +278,7 @@ const heroStyle = `
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.3);
     opacity: 0;
     transition: opacity 0.3s ease;
     border-radius: 15px;
@@ -302,41 +289,24 @@ const heroStyle = `
   }
 
   .play-trailer-btn {
-    background: white;
-    padding: 8px 24px;
+    padding: 10px 20px;
     border-radius: 30px;
-    border: none;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-    transition: all 0.2s ease;
-    font-weight: 500;
-    font-size: 0.95rem;
-    color: #000;
-    display: inline-flex;
-    align-items: center;
-  }
-  
-  .play-trailer-btn .fa-play {
-    font-size: 0.8rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
   }
   
   .play-trailer-btn:hover {
     transform: scale(1.05);
-    background-color: #fff;
+    background-color: #f8f9fa;
   }
   
   /* Content Animations */
   .hero-content-inner {
     opacity: 0;
-    transition: opacity 0.4s ease-in;
-  }
-  
-  .hero-content-inner.active {
-    opacity: 1;
   }
   
   .hero-content-inner.active > * {
     animation: fadeInUp 0.8s forwards;
-    opacity: 1;
   }
   
   .delay-1 { animation-delay: 0.1s !important; }
@@ -395,29 +365,28 @@ const heroStyle = `
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.15);
     border: none;
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
     z-index: 10;
     border-radius: 50%;
-    transition: all 0.2s ease;
-    opacity: 0.6;
-    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    opacity: 0.7;
   }
   
   .carousel-control-prev-custom:hover, .carousel-control-next-custom:hover {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.3);
     opacity: 1;
-    transform: translateY(-50%);
+    transform: translateY(-50%) scale(1.1);
   }
   
-  .carousel-control-prev-custom { left: 10px; }
-  .carousel-control-next-custom { right: 10px; }
+  .carousel-control-prev-custom { left: 20px; }
+  .carousel-control-next-custom { right: 20px; }
   
   /* Custom Indicators */
   .carousel-indicators-custom {
@@ -431,11 +400,11 @@ const heroStyle = `
   }
   
   .carousel-indicator-dot {
-    width: 10px;
-    height: 10px;
-    margin: 0 5px;
+    width: 12px;
+    height: 12px;
+    margin: 0 6px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.3);
     border: none;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -457,13 +426,6 @@ const heroStyle = `
   }
   
   /* Responsive Adjustments */
-  @media (max-width: 991px) {
-    .hero-image-container {
-      max-width: 280px;
-      height: 400px;
-    }
-  }
-
   @media (max-width: 767px) {
     .hero-slide {
       min-height: 500px;
@@ -477,63 +439,9 @@ const heroStyle = `
       font-size: 1rem;
     }
     
-    .hero-image-container {
-      max-width: 220px;
-      height: 330px;
+    .hero-img {
+      max-height: 300px;
     }
-  }
-
-  /* Hero Content Visibility */
-  .hero-content {
-    position: relative;
-    z-index: 20;
-  }
-
-  /* Button Styles */
-  .book-btn, .details-btn {
-    z-index: 20;
-    position: relative;
-    opacity: 1 !important;
-    transform: none !important;
-    animation: none !important;
-  }
-
-  .book-btn {
-    background-color: #007bff;
-    border-color: #007bff;
-    padding: 10px 20px;
-    font-weight: 500;
-  }
-
-  .details-btn {
-    border-color: #fff;
-    color: #fff;
-    padding: 10px 20px;
-    font-weight: 500;
-    background: transparent;
-  }
-
-  /* Fix animation issues */
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Disable transitions during transition state */
-  .transitioning .hero-content-inner.active > * {
-    animation: none !important;
-    opacity: 1 !important;
-  }
-
-  /* Custom container for the hero section */
-  .hero-container .container {
-    max-width: 1200px;
   }
 `;
 

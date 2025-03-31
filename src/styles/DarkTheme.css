@@ -1,0 +1,192 @@
+/* Global Dark Theme Styling */
+body {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+/* Keep the navbar and carousel pure black */
+.custom-navbar,
+.navbar,
+.navbar.bg-black,
+.hero-container,
+.carousel {
+  background-color: #000000 !important;
+}
+
+/* Create smooth transition from black to dark gray */
+.hero-to-content-transition {
+  height: 50px;
+  background: linear-gradient(to bottom, #000000, #121212);
+  margin-bottom: -50px;
+}
+
+/* Main container background */
+.container {
+  background-color: #121212;
+}
+
+/* Card styling */
+.card {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0 !important;
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Text colors */
+h1, h2, h3, h4, h5, h6 {
+  color: #e0e0e0 !important;
+}
+
+.text-dark {
+  color: #e0e0e0 !important;
+}
+
+.text-muted {
+  color: #aaaaaa !important;
+}
+
+/* Form controls */
+.form-control {
+  background-color: #2d2d2d !important;
+  border-color: #333 !important;
+  color: #fff !important;
+}
+
+.form-control::placeholder {
+  color: #aaa !important;
+}
+
+.form-control:focus {
+  background-color: #2d2d2d !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  border-color: #007bff !important;
+}
+
+/* Button styling */
+.btn-outline-primary, 
+.btn-outline-success, 
+.btn-outline-danger {
+  color: #e0e0e0 !important;
+}
+
+/* Modal and dropdown styling */
+.modal-content {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0 !important;
+}
+
+.dropdown-menu {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0 !important;
+}
+
+.dropdown-item {
+  color: #e0e0e0 !important;
+}
+
+.dropdown-item:hover {
+  background-color: #333 !important;
+}
+
+/* Table styling */
+.table {
+  color: #e0e0e0 !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* List group styling */
+.list-group-item {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0 !important;
+  border-color: #333 !important;
+}
+
+/* Alert styling */
+.alert-light {
+  background-color: #2d2d2d !important;
+  color: #e0e0e0 !important;
+  border-color: #333 !important;
+}
+
+/* Background utility classes */
+.bg-light {
+  background-color: #1e1e1e !important;
+}
+
+.bg-white {
+  background-color: #1e1e1e !important;
+}
+
+/* Pagination */
+.page-item .page-link {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0 !important;
+  border-color: #333 !important;
+}
+
+.page-item.active .page-link {
+  background-color: #007bff !important;
+  border-color: #007bff !important;
+}
+
+/* Badge styling */
+.badge-light {
+  background-color: #2d2d2d !important;
+  color: #e0e0e0 !important;
+}
+
+/* Added shadows for depth */
+.shadow, .shadow-sm {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4) !important;
+}
+
+/* Additional styles for Bootstrap elements */
+.jumbotron {
+  background-color: #1e1e1e !important;
+  color: #e0e0e0 !important;
+}
+
+.breadcrumb {
+  background-color: #1e1e1e !important;
+}
+
+.breadcrumb-item.active {
+  color: #e0e0e0 !important;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  color: #aaa !important;
+}
+
+/* Input groups */
+.input-group-text {
+  background-color: #2d2d2d !important;
+  border-color: #333 !important;
+  color: #e0e0e0 !important;
+}
+
+/* Fix for select elements */
+select.form-control,
+select.form-select {
+  background-color: #2d2d2d !important;
+  border-color: #333 !important;
+  color: #e0e0e0 !important;
+}
+
+/* Better container background targeting */
+.container:not(.hero-container .container) {
+  background-color: transparent;
+}
+
+/* Adjust button hover states for better visibility */
+.btn-outline-primary:hover, 
+.btn-outline-success:hover, 
+.btn-outline-danger:hover,
+.btn-outline-light:hover {
+  color: #fff !important;
+} 

@@ -108,11 +108,7 @@ const HeroSection = () => {
                       <img
                         src={movie.posterUrl || "/fallback.jpg"}
                         alt={movie.title}
-                        className="hero-img"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = "/fallback.jpg";
-                        }}
+                        className="img-fluid hero-img"
                       />
                       <div className="image-overlay-buttons">
                         <Button variant="light" className="play-trailer-btn">
@@ -202,7 +198,7 @@ const HeroSection = () => {
 // Enhanced Styles
 const heroStyle = `
   .hero-container {
-    background: #000000;
+    background: #000;
     position: relative;
     overflow: hidden;
     padding: 0;
@@ -243,10 +239,9 @@ const heroStyle = `
   .hero-slide {
     position: relative;
     z-index: 3;
-    min-height: 650px;
+    min-height: 600px;
     display: flex;
     align-items: center;
-    padding: 40px 0;
   }
   
   /* Image Container with Effects */
@@ -255,11 +250,10 @@ const heroStyle = `
     transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.6s ease;
     transform: translateY(30px);
     opacity: 0;
-    border-radius: 12px;
+    border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-    max-width: 320px;
-    height: 450px;
+    max-width: 85%;
     margin: 0 auto;
   }
   
@@ -269,11 +263,10 @@ const heroStyle = `
   }
   
   .hero-img {
-    width: 100%;
-    height: 100%;
+    max-height: 400px;
     object-fit: cover;
-    object-position: center top;
-    border-radius: 12px;
+    width: 100%;
+    border-radius: 15px;
     transition: transform 0.5s ease;
   }
   
@@ -459,8 +452,11 @@ const heroStyle = `
   /* Responsive Adjustments */
   @media (max-width: 991px) {
     .hero-image-container {
-      max-width: 280px;
-      height: 400px;
+      max-width: 75%;
+    }
+    
+    .hero-img {
+      max-height: 350px;
     }
   }
 
@@ -477,9 +473,12 @@ const heroStyle = `
       font-size: 1rem;
     }
     
+    .hero-img {
+      max-height: 250px;
+    }
+    
     .hero-image-container {
-      max-width: 220px;
-      height: 330px;
+      max-width: 65%;
     }
   }
 
@@ -529,11 +528,6 @@ const heroStyle = `
   .transitioning .hero-content-inner.active > * {
     animation: none !important;
     opacity: 1 !important;
-  }
-
-  /* Custom container for the hero section */
-  .hero-container .container {
-    max-width: 1200px;
   }
 `;
 

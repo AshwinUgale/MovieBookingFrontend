@@ -202,7 +202,7 @@ const HeroSection = () => {
 // Enhanced Styles
 const heroStyle = `
   .hero-container {
-    background: #000000;
+    background: #000;
     position: relative;
     overflow: hidden;
     padding: 0;

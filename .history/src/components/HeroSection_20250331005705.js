@@ -202,7 +202,7 @@ const HeroSection = () => {
 // Enhanced Styles
 const heroStyle = `
   .hero-container {
-    background: #000000;
+    background: #000;
     position: relative;
     overflow: hidden;
     padding: 0;
@@ -243,10 +243,9 @@ const heroStyle = `
   .hero-slide {
     position: relative;
     z-index: 3;
-    min-height: 650px;
+    min-height: 600px;
     display: flex;
     align-items: center;
-    padding: 40px 0;
   }
   
   /* Image Container with Effects */
@@ -529,11 +528,6 @@ const heroStyle = `
   .transitioning .hero-content-inner.active > * {
     animation: none !important;
     opacity: 1 !important;
-  }
-
-  /* Custom container for the hero section */
-  .hero-container .container {
-    max-width: 1200px;
   }
 `;
 

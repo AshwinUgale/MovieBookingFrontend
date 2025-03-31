@@ -1,0 +1,120 @@
+import { useEffect, useState } from "react";
+import { fetchBookingHistory, cancelBooking } from "../services/api";
+import { Container, Card, Button, Alert, Spinner, Badge, Row, Col } from "react-bootstrap";
+
+const BookingHistoryPage = () => {
+    const [bookings, setBookings] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const loadBookings = async () => {
+            try {
+                const data = await fetchBookingHistory();
+               
+console.log("Booking history data:", data);
+                setBookings(data);
+            } catch (error) {
+                setError("Failed to load bookings.");
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadBookings();
+    }, []);
+
+    const handleCancel = async (bookingId) => {
+        if (!window.confirm("Are you sure you want to cancel this booking?")) return;
+
+        try {
+            await cancelBooking(bookingId);
+            alert("Booking canceled successfully.");
+            setBookings((prev) => prev.filter((booking) => booking._id !== bookingId));
+        } catch (error) {
+            alert("Failed to cancel booking.");
+        }
+    };
+
+    const formatDateTime = (datetime) => {
+        return new Date(datetime).toLocaleString(undefined, {
+            weekday: "short",
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+    };
+
+    return (
+        <Container className="mt-4">
+            <h2 className="text-center text-primary mb-4">📅 Your Booking History</h2>
+
+            {loading ? (
+                <div className="text-center mt-4">
+                    <Spinner animation="border" variant="primary" />
+                </div>
+            ) : error ? (
+                <Alert variant="danger" className="text-center">{error}</Alert>
+            ) : bookings.length === 0 ? (
+                <Alert variant="warning" className="text-center">
+                    😕 No bookings found. Try booking your first show!
+                </Alert>
+            ) : (
+                <Row>
+                    {bookings.map((booking) => (
+                        <Col key={booking._id} md={6} lg={4} className="mb-4">
+                            <Card className="shadow-sm h-100">
+                            <Card.Body>
+                                <Card.Title className="mb-2">🎭 Showtime</Card.Title>
+                                <Card.Text className="text-muted">
+                                    {booking.showtime?.showtime ? formatDateTime(booking.showtime.showtime) : "Invalid Date"}
+                                </Card.Text>
+
+                                <Card.Text>
+                                    <strong>🎬 Movie:</strong>{" "}
+                                    {booking.showtime?.movie?.title || "Untitled"}
+                                </Card.Text>
+
+                                <hr />
+
+                                <Card.Text>
+                                    <strong>🎟️ Seats:</strong>{" "}
+                                    {booking.seats.map((seat, idx) => (
+                                        <Badge key={idx} bg="info" className="me-1">
+                                            {seat.number}
+                                        </Badge>
+                                    ))}
+                                </Card.Text>
+
+                                <Card.Text>
+                                    <strong>💳 Payment:</strong>{" "}
+                                    <Badge bg={booking.paymentStatus === "paid" ? "success" : "danger"}>
+                                        {booking.paymentStatus.toUpperCase()}
+                                    </Badge>
+                                </Card.Text>
+
+                                {booking.canceled ? (
+                                    <Badge bg="secondary" className="mt-2">❌ Cancelled</Badge>
+                                ) : (
+                                    <Button 
+                                        variant="outline-danger" 
+                                        size="sm" 
+                                        className="mt-2"
+                                        onClick={() => handleCancel(booking._id)}
+                                    >
+                                        Cancel Booking
+                                    </Button>
+                                )}
+                            </Card.Body>
+
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+            )}
+        </Container>
+    );
+};
+
+export default BookingHistoryPage;

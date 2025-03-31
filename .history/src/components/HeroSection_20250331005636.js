@@ -108,11 +108,7 @@ const HeroSection = () => {
                       <img
                         src={movie.posterUrl || "/fallback.jpg"}
                         alt={movie.title}
-                        className="hero-img"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = "/fallback.jpg";
-                        }}
+                        className="img-fluid hero-img"
                       />
                       <div className="image-overlay-buttons">
                         <Button variant="light" className="play-trailer-btn">
@@ -202,7 +198,7 @@ const HeroSection = () => {
 // Enhanced Styles
 const heroStyle = `
   .hero-container {
-    background: #000000;
+    background: #000;
     position: relative;
     overflow: hidden;
     padding: 0;
@@ -243,10 +239,9 @@ const heroStyle = `
   .hero-slide {
     position: relative;
     z-index: 3;
-    min-height: 650px;
+    min-height: 600px;
     display: flex;
     align-items: center;
-    padding: 40px 0;
   }
   
   /* Image Container with Effects */
@@ -459,8 +454,11 @@ const heroStyle = `
   /* Responsive Adjustments */
   @media (max-width: 991px) {
     .hero-image-container {
-      max-width: 280px;
-      height: 400px;
+      max-width: 75%;
+    }
+    
+    .hero-img {
+      max-height: 350px;
     }
   }
 
@@ -477,9 +475,12 @@ const heroStyle = `
       font-size: 1rem;
     }
     
+    .hero-img {
+      max-height: 250px;
+    }
+    
     .hero-image-container {
-      max-width: 220px;
-      height: 330px;
+      max-width: 65%;
     }
   }
 
@@ -529,11 +530,6 @@ const heroStyle = `
   .transitioning .hero-content-inner.active > * {
     animation: none !important;
     opacity: 1 !important;
-  }
-
-  /* Custom container for the hero section */
-  .hero-container .container {
-    max-width: 1200px;
   }
 `;
 

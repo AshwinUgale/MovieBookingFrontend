@@ -253,7 +253,7 @@ const BookingHistoryPage = () => {
                                                                 </div>
                                                             </div>
                                                         </Card.Body>
-                                                        <Card.Footer className="bg-dark">
+                                                        <Card.Footer className="bg-white">
                                                             {booking.canceled ? (
                                                                 <div className="text-center text-muted">
                                                                     <FaBan className="me-1" />
@@ -299,53 +299,5 @@ const BookingHistoryPage = () => {
         </Container>
     );
 };
-
-// Add dark theme styles specifically for the booking history page
-const bookingHistoryStyles = `
-  .accordion-button {
-    background-color: #1e1e1e !important;
-    color: #e0e0e0 !important;
-  }
-  
-  .accordion-button:not(.collapsed) {
-    background-color: #252525 !important;
-    color: #ffffff !important;
-  }
-  
-  .accordion-button:focus {
-    box-shadow: none !important;
-    border-color: #333 !important;
-  }
-  
-  .accordion-body {
-    background-color: #121212 !important;
-    border-top: 1px solid #333 !important;
-  }
-  
-  .booking-card {
-    transition: transform 0.3s ease;
-  }
-  
-  .booking-card:hover {
-    transform: translateY(-5px);
-  }
-  
-  .accordion-item {
-    background-color: #1e1e1e !important;
-    border: 1px solid #333 !important;
-    margin-bottom: 10px;
-    border-radius: 8px !important;
-    overflow: hidden;
-  }
-  
-  .accordion-button::after {
-    filter: invert(1) grayscale(100%) brightness(200%);
-  }
-`;
-
-// Inject styles
-const styleTag = document.createElement("style");
-styleTag.innerHTML = bookingHistoryStyles;
-document.head.appendChild(styleTag);
 
 export default BookingHistoryPage;
