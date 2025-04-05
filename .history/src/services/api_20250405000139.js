@@ -86,10 +86,6 @@ const generateReducedSeats = () => {
 };
 
 
-export const updateBookingStatus = async (bookingId) => {
-  const response = await api.patch(`/payments/update-status/${bookingId}`);
-  return response.data;
-};
 
 
 
@@ -110,19 +106,20 @@ export const bookSeats = async (showtimeId, selectedSeats) => {
 };
 
 // Payment-related functions
-const springApi = axios.create({
-  baseURL: "http://localhost:8080/api", // Adjust if Spring runs elsewhere
-  headers: {
-    "Content-Type": "application/json"
+export const verifyPayment = async (bookingId, paymentId, PayerID) => {
+  try {
+    console.log("🔍 Verifying payment:", { bookingId, paymentId, PayerID });
+    const response = await api.post("/payments/verify", {
+      bookingId,
+      paymentId,
+      PayerID
+    });
+    console.log("✅ Payment verification response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("❌ Payment verification error:", error);
+    throw error.response?.data || error.message;
   }
-});
-
-export const verifyPayment = async (paymentId, PayerID) => {
-  const response = await springApi.post(`/payments/verify`, {
-    paymentId,
-    payerID: PayerID // match Spring's expected camelCase
-  });
-  return response.data;
 };
 
 export const getPaymentStatus = async (bookingId) => {

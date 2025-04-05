@@ -7,7 +7,6 @@ const api = axios.create({
   },
 });
 
-
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -21,25 +20,14 @@ export const fetchMovies = async () => {
   return response.data;
 };
 
-
 export const fetchShowtimes = async (movieId) => {
   try {
-    const response = await api.get(`/showtimes?movie=${movieId}`);
-
-    // If no showtimes are found, return default showtimes
-    if (response.data.length === 0) {
-      return [
-        { _id: "default1", showtime: "2025-03-05T12:00:00", theater: "Screen 1" },
-        { _id: "default2", showtime: "2025-03-05T15:00:00", theater: "Screen 2" },
-        { _id: "default3", showtime: "2025-03-05T18:00:00", theater: "Screen 3" },
-        { _id: "default4", showtime: "2025-03-05T21:00:00", theater: "Screen 4" },
-      ];
-    }
-
+    const response = await api.get(`/showtimes/fake?movie=${movieId}`);
+    console.log("🎬 API response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching showtimes:", error);
-    return []; // Return empty array in case of an error
+    return [];
   }
 };
 
@@ -59,41 +47,36 @@ export const addShowtime = async (showtimeData) => {
   return response.data;
 };
 
-
 export const fetchSeats = async (showtimeId) => {
   try {
     const response = await api.get(`/showtimes/${showtimeId}`);
+    console.log("🎯 Seat API response:", response.data);
 
-    // Check if showtime exists and has available seats
-    if (response.data && response.data.availableSeats.length > 0) {
+    if (response.data && Array.isArray(response.data.availableSeats) && response.data.availableSeats.length > 0) {
       return response.data.availableSeats;
     } else {
-      console.warn("No seats found for this showtime, generating a full seat layout.");
-      
-      // Generate a full fallback seat layout
-      return generateFallbackSeats();
+      console.warn("🚨 No availableSeats or empty, falling back.");
+      return generateReducedSeats();
     }
   } catch (error) {
-    console.error("Error fetching seats, generating fallback data:", error);
-
-    // Return a full fallback seat layout in case of error
-    return generateFallbackSeats();
+    console.error("❌ Error fetching seats:", error);
+    return generateReducedSeats();
   }
 };
 
-// ✅ Function to Generate a Full Theater Layout
-const generateFallbackSeats = () => {
+// ✅ Function to Generate a Reduced Theater Layout (30-40% fewer seats)
+const generateReducedSeats = () => {
   const sections = ["VIP", "Platinum", "Gold", "Silver", "Economy"];
   let generatedSeats = [];
 
   sections.forEach((section) => {
-    for (let row = 1; row <= 7; row++) { // Increase rows
-      for (let seat = 1; seat <= 12; seat++) { // Increase seats per row
+    for (let row = 1; row <= 5; row++) {
+      for (let seat = 1; seat <= 8; seat++) {
         generatedSeats.push({
           id: `${section}-${row}-${seat}`,
-          number: `${section[0]}${row}${seat}`, // Example: V12, P32
+          number: `${section[0]}${row}${seat}`,
           type: section,
-          booked: Math.random() < 0.1 // 10% seats randomly booked
+          booked: Math.random() < 0.1
         });
       }
     }
@@ -102,46 +85,65 @@ const generateFallbackSeats = () => {
   return generatedSeats;
 };
 
+export const bookSeats = async (showtimeId, selectedSeats) => {
+  const response = await api.post("/bookings", {
+    showtimeId,
+    seats: selectedSeats,
+  });
+  return response.data;
+};
 
-
-export const bookSeats = async (showtimeId, seats) => {
+// New payment-related functions
+export const verifyPayment = async (bookingId, paymentId) => {
   try {
-    const response = await api.post("/bookings", { showtimeId, seats });
+    const response = await api.post("/payments/verify", {
+      bookingId,
+      paymentId
+    });
     return response.data;
   } catch (error) {
-    console.error("Error booking seats:", error);
-    throw error;
+    console.error("❌ Payment verification error:", error);
+    throw error.response?.data || error.message;
   }
 };
 
-export const mockPayment = async (bookingId) => {
+export const getPaymentStatus = async (bookingId) => {
   try {
-      const response = await api.post("/payments/pay", { bookingId });
-      return response.data;
+    const response = await api.get(`/payments/status/${bookingId}`);
+    return response.data;
   } catch (error) {
-      console.error("Error processing mock payment:", error);
-      throw error;
+    console.error("❌ Error getting payment status:", error);
+    throw error.response?.data || error.message;
+  }
+};
+
+export const cancelPayment = async (bookingId) => {
+  try {
+    const response = await api.post(`/payments/cancel/${bookingId}`);
+    return response.data;
+  } catch (error) {
+    console.error("❌ Error canceling payment:", error);
+    throw error.response?.data || error.message;
   }
 };
 
 export const fetchBookingHistory = async () => {
   try {
-      const response = await api.get("/bookings/history");  // GET request
-      return response.data;
+    const response = await api.get("/bookings/history");
+    return response.data;
   } catch (error) {
-      console.error("Error fetching booking history:", error);
-      throw error;
+    console.error("Error fetching booking history:", error);
+    throw error;
   }
 };
 
-
 export const cancelBooking = async (bookingId) => {
   try {
-      const response = await api.delete(`/bookings/${bookingId}`); // DELETE request
-      return response.data;
+    const response = await api.delete(`/bookings/${bookingId}`);
+    return response.data;
   } catch (error) {
-      console.error("Error canceling booking:", error);
-      throw error;
+    console.error("Error canceling booking:", error);
+    throw error;
   }
 };
 
@@ -157,10 +159,10 @@ export const fetchEvents = async (city = "", category = "") => {
       url += "?" + queryParams.join("&");
     }
 
-    console.log("🔍 Fetching events from:", url); // Debugging API request
+    console.log("🔍 Fetching events from:", url);
 
     const response = await api.get(url);
-    console.log("✅ Received Events Data:", response.data); // Debugging API response
+    console.log("✅ Received Events Data:", response.data);
 
     return response.data;
   } catch (error) {
@@ -169,7 +171,5 @@ export const fetchEvents = async (city = "", category = "") => {
   }
 };
 
-
-
-
 export default api;
+

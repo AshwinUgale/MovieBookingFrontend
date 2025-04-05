@@ -48,7 +48,6 @@ const SeatSelection = ({ showtimeId }) => {
             }));
     
             console.log("📤 Sending cleaned seats:", sanitizedSeats);
-            const response = await bookSeats(showtimeId, sanitizedSeats);
     
             if (response.paymentUrl) {
                 console.log("💳 Redirecting to PayPal...");

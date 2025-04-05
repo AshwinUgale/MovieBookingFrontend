@@ -86,10 +86,6 @@ const generateReducedSeats = () => {
 };
 
 
-export const updateBookingStatus = async (bookingId) => {
-  const response = await api.patch(`/payments/update-status/${bookingId}`);
-  return response.data;
-};
 
 
 
@@ -110,25 +106,25 @@ export const bookSeats = async (showtimeId, selectedSeats) => {
 };
 
 // Payment-related functions
-const springApi = axios.create({
-  baseURL: "http://localhost:8080/api", // Adjust if Spring runs elsewhere
-  headers: {
-    "Content-Type": "application/json"
+export const verifyPayment = async (bookingId, paymentId, PayerID) => {
+  try {
+    console.log("🔍 Verifying payment:", { bookingId, paymentId, PayerID });
+    const response = await api.post(`/payments/${bookingId}/verify`, {
+      paymentId,
+      PayerID
+    });
+    console.log("✅ Payment verification response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("❌ Payment verification error:", error);
+    throw error.response?.data || error.message;
   }
-});
-
-export const verifyPayment = async (paymentId, PayerID) => {
-  const response = await springApi.post(`/payments/verify`, {
-    paymentId,
-    payerID: PayerID // match Spring's expected camelCase
-  });
-  return response.data;
 };
 
 export const getPaymentStatus = async (bookingId) => {
   try {
     console.log("🔍 Checking payment status for booking:", bookingId);
-    const response = await api.get(`/payments/status/${bookingId}`);
+    const response = await api.get(`/payments/${bookingId}/status`);
     console.log("✅ Payment status response:", response.data);
     return response.data;
   } catch (error) {
@@ -140,7 +136,7 @@ export const getPaymentStatus = async (bookingId) => {
 export const cancelPayment = async (bookingId) => {
   try {
     console.log("🔄 Canceling payment for booking:", bookingId);
-    const response = await api.post(`/payments/cancel/${bookingId}`);
+    const response = await api.post(`/payments/${bookingId}/cancel`);
     console.log("✅ Payment cancellation response:", response.data);
     return response.data;
   } catch (error) {

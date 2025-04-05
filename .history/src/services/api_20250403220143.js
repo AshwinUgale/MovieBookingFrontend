@@ -85,51 +85,31 @@ const generateReducedSeats = () => {
   return generatedSeats;
 };
 
-
-export const updateBookingStatus = async (bookingId) => {
-  const response = await api.patch(`/payments/update-status/${bookingId}`);
-  return response.data;
-};
-
-
-
-// ... keep all existing non-payment related functions ...
-
 export const bookSeats = async (showtimeId, selectedSeats) => {
-  try {
-    const response = await api.post("/bookings", {
-      showtimeId,
-      seats: selectedSeats,
-    });
-    console.log("📦 Booking response:", response.data);
-    return response.data;
-  } catch (error) {
-    console.error("❌ Booking error:", error);
-    throw error.response?.data || error.message;
-  }
-};
-
-// Payment-related functions
-const springApi = axios.create({
-  baseURL: "http://localhost:8080/api", // Adjust if Spring runs elsewhere
-  headers: {
-    "Content-Type": "application/json"
-  }
-});
-
-export const verifyPayment = async (paymentId, PayerID) => {
-  const response = await springApi.post(`/payments/verify`, {
-    paymentId,
-    payerID: PayerID // match Spring's expected camelCase
+  const response = await api.post("/bookings", {
+    showtimeId,
+    seats: selectedSeats,
   });
   return response.data;
 };
 
+// New payment-related functions
+export const verifyPayment = async (bookingId, paymentId) => {
+  try {
+    const response = await api.post("/payments/verify", {
+      bookingId,
+      paymentId
+    });
+    return response.data;
+  } catch (error) {
+    console.error("❌ Payment verification error:", error);
+    throw error.response?.data || error.message;
+  }
+};
+
 export const getPaymentStatus = async (bookingId) => {
   try {
-    console.log("🔍 Checking payment status for booking:", bookingId);
     const response = await api.get(`/payments/status/${bookingId}`);
-    console.log("✅ Payment status response:", response.data);
     return response.data;
   } catch (error) {
     console.error("❌ Error getting payment status:", error);
@@ -139,19 +119,13 @@ export const getPaymentStatus = async (bookingId) => {
 
 export const cancelPayment = async (bookingId) => {
   try {
-    console.log("🔄 Canceling payment for booking:", bookingId);
     const response = await api.post(`/payments/cancel/${bookingId}`);
-    console.log("✅ Payment cancellation response:", response.data);
     return response.data;
   } catch (error) {
     console.error("❌ Error canceling payment:", error);
     throw error.response?.data || error.message;
   }
 };
-
-// ... keep all other existing functions ...
-
-
 
 export const fetchBookingHistory = async () => {
   try {
@@ -198,4 +172,3 @@ export const fetchEvents = async (city = "", category = "") => {
 };
 
 export default api;
-

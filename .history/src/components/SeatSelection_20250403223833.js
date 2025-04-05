@@ -48,21 +48,16 @@ const SeatSelection = ({ showtimeId }) => {
             }));
     
             console.log("📤 Sending cleaned seats:", sanitizedSeats);
-            const response = await bookSeats(showtimeId, sanitizedSeats);
     
-            if (response.paymentUrl) {
-                console.log("💳 Redirecting to PayPal...");
-                localStorage.setItem('currentBookingId', response.booking._id);
-                window.location.href = response.paymentUrl;
-            } else {
-                throw new Error("Payment URL not received from server");
-            }
+            const response = await bookSeats(showtimeId, sanitizedSeats);
+            alert("Booking confirmed! Proceeding to payment...");
+            setSelectedSeats([]);
+            navigate(`/payment/${response.booking._id}`);
         } catch (error) {
-            console.error("🚨 Booking Error:", error);
-            setError(error.response?.data?.message || "Booking failed. Please try again.");
-        } finally {
-            setLoading(false);
+            setError("Booking failed. Please try again.");
         }
+    
+        setLoading(false);
     };
     
     // 💰 Calculate total price

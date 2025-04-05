@@ -19,12 +19,7 @@ import Events from "./pages/Events";
 import 'bootstrap/dist/css/bootstrap.min.css';
 // Import global dark theme
 import './styles/DarkTheme.css';
-// ... existing code ...
 
-
-// ... other routes ...
-
-// ... existing code ...
 function App() {
   return (
     <AuthProvider>
@@ -39,9 +34,7 @@ function App() {
         <Route path="/events" element={<Events />} />
         <Route path="/showtimes/fake/:movieId" element={<ShowtimesPage />} />  {/* ✅ Updated path */}
         <Route path="/showtime/:showtimeId" element={<ShowtimePage />} />
-        <Route path="/payment/success" element={<PaymentStatus />} />
-       <Route path="/payment/cancel" element={<PaymentStatus />} />
-        <Route path="/payment/error" element={<PaymentStatus />} />
+        <Route path="/payment/status" element={<PaymentStatus />} />
 
         {/* Protected Routes */}
         <Route path="/dashboard" element={<PrivateRoute component={DashboardPage} />} />

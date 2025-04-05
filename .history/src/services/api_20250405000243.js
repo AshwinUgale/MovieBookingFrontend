@@ -86,10 +86,6 @@ const generateReducedSeats = () => {
 };
 
 
-export const updateBookingStatus = async (bookingId) => {
-  const response = await api.patch(`/payments/update-status/${bookingId}`);
-  return response.data;
-};
 
 
 

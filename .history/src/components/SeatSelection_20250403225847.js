@@ -40,7 +40,7 @@ const SeatSelection = ({ showtimeId }) => {
         setLoading(true);
     
         try {
-            // ✅ Clean the seat data before sending to API
+            // Clean the seat data before sending to API
             const sanitizedSeats = selectedSeats.map(seat => ({
                 id: seat.id,
                 number: seat.number,
@@ -50,11 +50,15 @@ const SeatSelection = ({ showtimeId }) => {
             console.log("📤 Sending cleaned seats:", sanitizedSeats);
             const response = await bookSeats(showtimeId, sanitizedSeats);
     
-            if (response.paymentUrl) {
+            // Check for approvalUrl (not paymentUrl)
+            if (response.booking && response.approvalUrl) {
                 console.log("💳 Redirecting to PayPal...");
                 localStorage.setItem('currentBookingId', response.booking._id);
-                window.location.href = response.paymentUrl;
+                // Add a timestamp for potential cleanup of old bookings
+                localStorage.setItem('bookingTimestamp', Date.now());
+                window.location.href = response.approvalUrl;
             } else {
+                console.error("Invalid response:", response);
                 throw new Error("Payment URL not received from server");
             }
         } catch (error) {
