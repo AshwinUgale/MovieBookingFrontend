@@ -124,9 +124,9 @@ const response = await api.post("/bookings", {
 
 
 export const verifyPayment = async (paymentId, PayerID) => {
-  const response = await api.post(`/payments/verify`, {
+  const response = await springApi.post(`/payments/verify`, {
     paymentId,
-    PayerID // match Spring's expected camelCase
+    payerID: PayerID // match Spring's expected camelCase
   });
   return response.data;
 };

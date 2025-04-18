@@ -124,9 +124,9 @@ const response = await api.post("/bookings", {
 
 
 export const verifyPayment = async (paymentId, PayerID) => {
-  const response = await api.post(`/payments/verify`, {
+  const response = await springApi.post(`/payments/verify`, {
     paymentId,
-    PayerID // match Spring's expected camelCase
+    payerID: PayerID // match Spring's expected camelCase
   });
   return response.data;
 };
@@ -167,19 +167,13 @@ export const cancelPayment = async (bookingId) => {
 
 export const fetchBookingHistory = async () => {
   try {
-    const token = localStorage.getItem("token");
-    const response = await api.get("/bookings/history", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await api.get("/bookings/history");
     return response.data;
   } catch (error) {
     console.error("Error fetching booking history:", error);
-    throw error.response?.data || error.message;
+    throw error;
   }
 };
-
 
 export const cancelBooking = async (bookingId) => {
   try {

@@ -18,21 +18,25 @@ const LoginPage = () => {
         setError(""); // Reset error message
 
         try {
-            const response = await api.post("/auth/login", { email, password });
-        
-            localStorage.setItem("token", response.data.token);
-            login(response.data.token); // ✅ Update authentication state
-            navigate("/"); // Redirect to home after login
-        } catch (err) {
-            console.error("🔴 Login error:", err);
-            console.error("🔴 Full error response:", err.response);
-            if (err.response && err.response.data && err.response.data.message) {
-                setError(err.response.data.message);
+            const response = await fetch(`${window.env.REACT_API_URL}/api/auth/login`, {
+
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                localStorage.setItem("token", data.token);
+                login(data.token); // ✅ Update authentication state
+                navigate("/"); // Redirect to home after login
             } else {
-                setError("Login failed. Please try again.");
+                setError(data.message || "Invalid credentials");
             }
+        } catch (err) {
+            setError("Login failed. Please try again.");
         }
-        
     };
 
     return (
