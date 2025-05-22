@@ -13,7 +13,7 @@ const CustomNavbar = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link as={Link} to="/" className="nav-link-custom">Home</Nav.Link>
+                        <Nav.Link as={Link} to="/" className="nav-link-custom">Homeee</Nav.Link>
                         <Nav.Link as={Link} to="/movies" className="nav-link-custom">Movies</Nav.Link>
                         <Nav.Link as={Link} to="/events" className="nav-link-custom">Live Events</Nav.Link>
                         {isAuthenticated && <Nav.Link as={Link} to="/bookings" className="nav-link-custom">My Bookings</Nav.Link>}
