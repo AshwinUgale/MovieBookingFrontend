@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: ashwin1121/frontend:v3
+          image: ashwin1121/frontend:v6
           imagePullPolicy: Always
           ports:
             - containerPort: 80
